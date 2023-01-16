@@ -1,10 +1,6 @@
-const formetter = require("../../formatter/date")
-
 exports.index = (ctx, next) => {
     let query = ctx.query;
-    let result = formetter.isNewFeed('2023-01-12 15:11:23');
-    console.log("새 글인가요?"+ result);
-    ctx.body = query;
+    ctx.body = "안뇽";
 }
 
 exports.store = (ctx, next) => {
