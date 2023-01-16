@@ -1,9 +1,13 @@
 const Router = require('@koa/router');
-const router= new Router();
+const router = new Router();
+
+const { myLogging } = require('./middleware/logging');
 
 const webController = require('./web/controller');
 const apiUserController = require('./api/user/controller')
-const apiFeedController = require('./api/feed/controller')
+const apiFeedController = require('./api/feed/controller');
+
+router.use(myLogging) // 무조건 이 middleware을 거치고 가주세요..
 
 router.get('/', webController.home);
 router.get('/api/page/:page', webController.page);
