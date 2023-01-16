@@ -9,12 +9,13 @@ exports.register = async (ctx, next) => {
     ctx.body = token;
 }
 
-exports.login = async (ctx, next) => {
+exports.login = async ctx => {
     // 로그인 모듈
     let { id, pw } = ctx.request.body;
+    console.log(ctx);
     let result = "";
 
-    if (id =='admin' && pw == '1234') {
+    if (id === 'admin' && pw === '1234') {
         result = await generateToken({name: 'abc'});
     } else {
         result = "아이디 혹은 패스워드가 올바르지 않습니다.";
@@ -26,14 +27,13 @@ exports.login = async (ctx, next) => {
  * 토큰 생성
  */
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'my-secret-key';
 
 let generateToken = (payload) => {
     return new Promise((resolve, reject) => {
-        jwt.sign(payload, SECRET_KEY, (error, token) => {
-            // if(error) { reject(error) };
-            // resolve(token);
-            (e) ? reject(e) : resolve(t);
+        jwt.sign(payload, process.env.APP_KEY, (error, token) => {
+            if(error) { reject(error) };
+            resolve(token);
+            // (error) ? reject(error) : resolve(token);
         })
     }
     )

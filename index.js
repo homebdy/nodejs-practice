@@ -1,3 +1,4 @@
+require('dotenv').config();
 const Koa = require('koa');
 const Router = require('@koa/router');
 const bodyParser = require('koa-bodyparser');
@@ -22,6 +23,6 @@ render(app, {
     viewExt: 'ejs', cache:false
 });
 
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
     console.log(`웹 서버 구동 중... ${port}`);
 });
