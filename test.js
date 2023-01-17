@@ -1,22 +1,27 @@
-const jwt = require('jsonwebtoken');
+// get the client
+const mysql = require('mysql2');
+// create the connection to database
+const connection = mysql.createConnection({
+ host: 'localhost',
+ user: 'root',
+ password: '1234',
+ database: 'test'
+});
 
-const token = jwt.sign(
-    { name: 'abc' },
-    'my-secret-key',
-    { expiresIn: '30m' },
-    (err, token) => {
-        if(err) {
-            console.log("error");
-            return;
-        }
-        console.log(token);
-    }
-)
-
-// jwt.verify('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidHUiLCJpYXQiOjE2NzM4NDQzMTQsImV4cCI6MTY3Mzg0NjExNH0.WUxJ1U99b4mqCFngYFLy4-tMgeLOsLwPAnwklJikfUc', ' my-secret-key', (error, decoded) => {
-//     if (error) {
-//         console.error(error);
-//         return;
-//     }
-//     console.log(decoded);
-// })
+// simple query
+let name = "Page", age = 45;
+connection.query(
+ `SELECT * FROM 'table' WHERE '${name}' = "Page" AND '${age}' > 45`,
+ function(err, results, fields) {
+ console.log(results); // results contains rows returned by server
+ console.log(fields); // fields contains extra meta data about results, if available
+ }
+);
+// with placeholder
+connection.query(
+ `SELECT * FROM 'table' WHERE '${name}' = ? AND '${age}' > ?`,
+ ['Page', 45],
+ function(err, results) {
+ console.log(results);
+ }
+);
