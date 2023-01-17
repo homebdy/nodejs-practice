@@ -1,25 +1,57 @@
-exports.index = (ctx, next) => {
-    let query = ctx.query;
-    ctx.body = "안뇽";
+const model = require('./query');
+
+exports.index = async (ctx, next) => {
+    let result = await model.getAllFeed();
+    ctx.response.body = result;
+
+    console.log(ctx);
 }
 
-exports.store = (ctx, next) => {
-    let body = ctx.request.body;
-    console.log(ctx.request);
-    ctx.body = body;
+exports.store = async (ctx, next) => {
+    let { user_id, image_id, content } = ctx.request.body;
+    let { affectedRows, insertId } = await model.create(user_id, image_id, content);
+    if (affectedRows > 0) {
+        ctx.body = {
+            result: "ok",
+            id: insertId,
+        }
+        ctx.status = 201
+    } else {
+        ctx.body= { result: "fail" }
+    }
 }
 
-exports.show = (ctx, next) => {
+exports.show = async (ctx, next) => {
+    let id = ctx.request.params.id;
+    let item = await model.show(id);
+    if (item != null) {
+        ctx.body = item;
+    } else {
+        ctx.body = "해당 게시물은 존재하지 않습니다."
+    }
+}
+
+exports.update = async (ctx, next) => {
     let id = ctx.params.id;
-    ctx.body = `${id} 피드 상세`
+    let { content } = ctx.request.body;
+    let { affectedRows } = await model.update(id, content);
+    if (affectedRows > 0) {
+        result = `${id} 피드 수정`;
+    } else {
+        result = { result: "fail" }
+    }
+    ctx.body = result;
 }
 
-exports.update = (ctx, next) => {
+exports.delete = async (ctx, next) => {
     let id = ctx.params.id;
-    ctx.body = `${id} 피드 수정`
-}
+    let { affectedRows } = await model.delete(id);
+    let result = "";
 
-exports.delete = (ctx, next) => {
-    let id = ctx.params.id;
-    ctx.body = `${id} 피드 삭제`
+    if (affectedRows > 0) {
+        result = `${id} 피드 삭제`
+    } else {
+        result = { result: "fail" }
+    }
+    ctx.body = result;
 }

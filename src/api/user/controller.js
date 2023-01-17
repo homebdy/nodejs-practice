@@ -31,7 +31,7 @@ exports.login = async ctx => {
     
     let item = await login(email, result.toString('base64'));
     if (item != null) {
-        ctx.body = await generateToken({name: 'abc'});
+        ctx.body = await generateToken({name: item.name});
     } else {
         ctx.body = {result: "아이디 혹은 패스워드가 올바르지 않습니다."};
     }

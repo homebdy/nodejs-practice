@@ -7,7 +7,7 @@ const upload = multer({
 })
 
 const { myLogging } = require('./middleware/logging');
-
+const { verify } = require('./middleware/auth');
 
 const webController = require('./web/controller');
 const apiUserController = require('./api/user/controller')
@@ -24,6 +24,7 @@ router.get('/api/page/:page', webController.page);
 
 router.post('/api/user/register', apiUserController.register);
 router.post('/api/user/login', apiUserController.login);
+
 
 router.get('/api/user/:id', apiUserController.info);
 
