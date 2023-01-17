@@ -9,7 +9,7 @@ const path = require('path')
 
 const port = process.env.PORT || 3000;
 
-app.use(bodyParser({formLimit: '5mb'}));
+app.use(bodyParser());
 
 app.use(require('koa-static')(`${__dirname}/public`));
 router.use(require('./src/routes').routes());

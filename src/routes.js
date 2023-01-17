@@ -15,7 +15,9 @@ const apiFeedController = require('./api/feed/controller');
 
 router.use(myLogging); // 무조건 이 middleware을 거치고 가주세요..
 
+// 순서를 맞춰야함 -> 파라미터 x 주소 먼저
 router.post('/file/upload', upload.single('file'), require('./api/file/controller').upload);
+router.get('/file/:id', require('./api/file/controller').download);
 
 router.get('/', webController.home);
 router.get('/api/page/:page', webController.page);
