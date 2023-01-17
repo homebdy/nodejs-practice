@@ -25,7 +25,6 @@ router.get('/api/page/:page', webController.page);
 router.post('/api/user/register', apiUserController.register);
 router.post('/api/user/login', apiUserController.login);
 
-
 router.get('/api/user/:id', apiUserController.info);
 
 router.get('/api/feed', apiFeedController.index);

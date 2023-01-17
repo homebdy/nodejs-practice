@@ -4,7 +4,8 @@ exports.index = (ctx, next) => {
 }
 
 exports.store = (ctx, next) => {
-    let body = ctx.request.body
+    let body = ctx.request.body;
+    console.log(ctx.request);
     ctx.body = body;
 }
 

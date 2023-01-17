@@ -5,11 +5,11 @@ const bodyParser = require('koa-bodyparser');
 const app = new Koa();
 const router = new Router();
 const render = require('koa-ejs');
-const path = require('path')
+const path = require('path');
 
 const port = process.env.PORT || 3000;
 
-app.use(bodyParser());
+app.use(bodyParser({formLimit: '5mb'}));
 
 app.use(require('koa-static')(`${__dirname}/public`));
 router.use(require('./src/routes').routes());
