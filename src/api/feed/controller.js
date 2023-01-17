@@ -3,12 +3,11 @@ const model = require('./query');
 exports.index = async (ctx, next) => {
     let result = await model.getAllFeed();
     ctx.response.body = result;
-
-    console.log(ctx);
 }
 
 exports.store = async (ctx, next) => {
-    let { user_id, image_id, content } = ctx.request.body;
+    let user_id = ctx.request.decoded.id
+    let { image_id, content } = ctx.request.body;
     let { affectedRows, insertId } = await model.create(user_id, image_id, content);
     if (affectedRows > 0) {
         ctx.body = {

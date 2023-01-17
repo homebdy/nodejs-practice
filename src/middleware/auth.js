@@ -1,12 +1,21 @@
 const jwt = require('jsonwebtoken');
 
 exports.verify = async (ctx, next) => {
-    var token = ctx.request.headers['token'];
-    jwt.verify(token, process.env.APP_KEY, (error, decoded) => {
-        if(error) {
-            ctx.body = '로그인이 필요합니다.';
+    try {
+		ctx.request.decoded = jwt.verify(ctx.request.headers.token, process.env.APP_KEY);
+		return next();
+	} catch (error) {
+		if (error.name === 'TokenExpiredError') {
+	  		ctx.status = 419;
+            ctx.body = {
+                "message":'토큰 만료'
+            }
             return;
+		}
+        ctx.status = 401
+        ctx.body = {
+            "message":'유효하지 않은 토큰'
         }
-        next();
-    })
+        return;
+	}
 }

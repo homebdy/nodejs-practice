@@ -14,7 +14,7 @@ exports.register = async (ctx, next) => {
 
     let { affectedRows } = await register(email, result.toString('base64'), name);
     if (affectedRows > 0) {
-        token = await generateToken({ name })
+        token = await generateToken({ id: item.id })
         ctx.body = {
             result: "ok",
             token: `${token}`
@@ -31,7 +31,7 @@ exports.login = async ctx => {
     
     let item = await login(email, result.toString('base64'));
     if (item != null) {
-        ctx.body = await generateToken({name: item.name});
+        ctx.body = await generateToken({id: item.id});
     } else {
         ctx.body = {result: "아이디 혹은 패스워드가 올바르지 않습니다."};
     }
